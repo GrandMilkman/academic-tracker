@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Index page</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/">University</a>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a class="nav-link" href="/login" th:href="@{/login}">
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Login
+                </a>
+            </li>
+            <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="nav-link" href="/logout" th:href="@{#}" onclick="$('#form').submit();">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                </a>
+                <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <div class="starter-template">
+        <h1>Placeholder to use text under navbar</h1>
+    </div>
+</main>
+
+<form action="/login" method="post" th:object="${user}">
+    <div class="Er"th:if="${param.error}">
+        <div style="color: red">You are invalid</div>
+    </div>
+    <div>
+        <div>
+            <input type="text" id="username" name="username"
+                   th:value="${user} ? ${user.name}" placeholder="Username"></input>
+        </div>
+        <div>
+            <input type="password" id="password"
+                   name="password" placeholder="Password"></input>
+        </div>
+
+        <div>
+            <button id="submit" name="submit">Submit</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+</body>
+</html>
